@@ -22,9 +22,9 @@
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)\strongname.snk</AssemblyOriginatorKeyFile>
 
-    <Company>Sam Harwell</Company>
+    <Company>Tunnel Vision Laboratories, LLC</Company>
     <Authors>Sam Harwell</Authors>
-    <Copyright>Â© Sam Harwell. All rights reserved.</Copyright>
+    <Copyright>© Tunnel Vision Laboratories, LLC. All rights reserved.</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
