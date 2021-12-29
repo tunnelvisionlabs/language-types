@@ -15,6 +15,9 @@ dotnet_diagnostic.SA1130.severity = silent
 # SA1600: Elements should be documented
 dotnet_diagnostic.SA1600.severity = silent
 
+# SA1602: Enumeration items should be documented
+dotnet_diagnostic.SA1602.severity = silent
+
 # IDE0009: Member access should be qualified.
 dotnet_diagnostic.IDE0009.severity = none
 
