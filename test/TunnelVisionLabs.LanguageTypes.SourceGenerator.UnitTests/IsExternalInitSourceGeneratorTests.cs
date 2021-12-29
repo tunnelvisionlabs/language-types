@@ -42,7 +42,7 @@ namespace System.Runtime.CompilerServices
     {
     }
 }
-"),
+".ReplaceLineEndings("\r\n")),
                     },
                 },
                 LanguageVersion = LanguageVersion.CSharp10,
@@ -69,7 +69,7 @@ namespace System.Runtime.CompilerServices
 using System.Runtime.CompilerServices;
 
 [assembly: TypeForwardedTo(typeof(IsExternalInit))]
-"),
+".ReplaceLineEndings("\r\n")),
                     },
                 },
                 LanguageVersion = LanguageVersion.CSharp10,

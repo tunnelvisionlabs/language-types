@@ -46,7 +46,7 @@ namespace System.Runtime.CompilerServices
 
                     if (!referencedTypesData.HasIsExternalInit)
                     {
-                        context.AddSource("IsExternalInit.g.cs", IsExternalInitSource);
+                        context.AddSource("IsExternalInit.g.cs", IsExternalInitSource.ReplaceLineEndings("\r\n"));
                     }
                     else
                     {
@@ -64,7 +64,7 @@ using System.Runtime.CompilerServices;
 {string.Join("\r\n", forwarders.Select(forwarder => $"[assembly: TypeForwardedTo(typeof({forwarder}))]"))}
 ";
 
-                        context.AddSource("CompilerForwarders.g.cs", compilerForwarders);
+                        context.AddSource("CompilerForwarders.g.cs", compilerForwarders.ReplaceLineEndings("\r\n"));
                     }
                 });
         }

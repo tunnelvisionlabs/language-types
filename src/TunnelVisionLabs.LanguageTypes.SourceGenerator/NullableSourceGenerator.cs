@@ -280,7 +280,7 @@ namespace System.Diagnostics.CodeAnalysis
 
                     if (!referencedTypesData.HasAllowNullAttribute)
                     {
-                        context.AddSource("AllowNullAttribute.g.cs", AllowNullAttributeSource);
+                        context.AddSource("AllowNullAttribute.g.cs", AllowNullAttributeSource.ReplaceLineEndings("\r\n"));
                     }
                     else
                     {
@@ -289,7 +289,7 @@ namespace System.Diagnostics.CodeAnalysis
 
                     if (!referencedTypesData.HasDisallowNullAttribute)
                     {
-                        context.AddSource("DisallowNullAttribute.g.cs", DisallowNullAttributeSource);
+                        context.AddSource("DisallowNullAttribute.g.cs", DisallowNullAttributeSource.ReplaceLineEndings("\r\n"));
                     }
                     else
                     {
@@ -298,7 +298,7 @@ namespace System.Diagnostics.CodeAnalysis
 
                     if (!referencedTypesData.HasMaybeNullAttribute)
                     {
-                        context.AddSource("MaybeNullAttribute.g.cs", MaybeNullAttributeSource);
+                        context.AddSource("MaybeNullAttribute.g.cs", MaybeNullAttributeSource.ReplaceLineEndings("\r\n"));
                     }
                     else
                     {
@@ -307,7 +307,7 @@ namespace System.Diagnostics.CodeAnalysis
 
                     if (!referencedTypesData.HasNotNullAttribute)
                     {
-                        context.AddSource("NotNullAttribute.g.cs", NotNullAttributeSource);
+                        context.AddSource("NotNullAttribute.g.cs", NotNullAttributeSource.ReplaceLineEndings("\r\n"));
                     }
                     else
                     {
@@ -316,7 +316,7 @@ namespace System.Diagnostics.CodeAnalysis
 
                     if (!referencedTypesData.HasMaybeNullWhenAttribute)
                     {
-                        context.AddSource("MaybeNullWhenAttribute.g.cs", MaybeNullWhenAttributeSource);
+                        context.AddSource("MaybeNullWhenAttribute.g.cs", MaybeNullWhenAttributeSource.ReplaceLineEndings("\r\n"));
                     }
                     else
                     {
@@ -325,7 +325,7 @@ namespace System.Diagnostics.CodeAnalysis
 
                     if (!referencedTypesData.HasNotNullWhenAttribute)
                     {
-                        context.AddSource("NotNullWhenAttribute.g.cs", NotNullWhenAttributeSource);
+                        context.AddSource("NotNullWhenAttribute.g.cs", NotNullWhenAttributeSource.ReplaceLineEndings("\r\n"));
                     }
                     else
                     {
@@ -334,7 +334,7 @@ namespace System.Diagnostics.CodeAnalysis
 
                     if (!referencedTypesData.HasNotNullIfNotNullAttribute)
                     {
-                        context.AddSource("NotNullIfNotNullAttribute.g.cs", NotNullIfNotNullAttributeSource);
+                        context.AddSource("NotNullIfNotNullAttribute.g.cs", NotNullIfNotNullAttributeSource.ReplaceLineEndings("\r\n"));
                     }
                     else
                     {
@@ -343,7 +343,7 @@ namespace System.Diagnostics.CodeAnalysis
 
                     if (!referencedTypesData.HasDoesNotReturnAttribute)
                     {
-                        context.AddSource("DoesNotReturnAttribute.g.cs", DoesNotReturnAttributeSource);
+                        context.AddSource("DoesNotReturnAttribute.g.cs", DoesNotReturnAttributeSource.ReplaceLineEndings("\r\n"));
                     }
                     else
                     {
@@ -352,7 +352,7 @@ namespace System.Diagnostics.CodeAnalysis
 
                     if (!referencedTypesData.HasDoesNotReturnIfAttribute)
                     {
-                        context.AddSource("DoesNotReturnIfAttribute.g.cs", DoesNotReturnIfAttributeSource);
+                        context.AddSource("DoesNotReturnIfAttribute.g.cs", DoesNotReturnIfAttributeSource.ReplaceLineEndings("\r\n"));
                     }
                     else
                     {
@@ -361,7 +361,7 @@ namespace System.Diagnostics.CodeAnalysis
 
                     if (!referencedTypesData.HasMemberNotNullAttribute)
                     {
-                        context.AddSource("MemberNotNullAttribute.g.cs", MemberNotNullAttributeSource);
+                        context.AddSource("MemberNotNullAttribute.g.cs", MemberNotNullAttributeSource.ReplaceLineEndings("\r\n"));
                     }
                     else
                     {
@@ -370,7 +370,7 @@ namespace System.Diagnostics.CodeAnalysis
 
                     if (!referencedTypesData.HasMemberNotNullWhenAttribute)
                     {
-                        context.AddSource("MemberNotNullWhenAttribute.g.cs", MemberNotNullWhenAttributeSource);
+                        context.AddSource("MemberNotNullWhenAttribute.g.cs", MemberNotNullWhenAttributeSource.ReplaceLineEndings("\r\n"));
                     }
                     else
                     {
@@ -389,7 +389,7 @@ using System.Runtime.CompilerServices;
 {string.Join("\r\n", forwarders.Select(forwarder => $"[assembly: TypeForwardedTo(typeof({forwarder}))]"))}
 ";
 
-                        context.AddSource("NullableForwarders.g.cs", nullableForwarders);
+                        context.AddSource("NullableForwarders.g.cs", nullableForwarders.ReplaceLineEndings("\r\n"));
                     }
                 });
         }

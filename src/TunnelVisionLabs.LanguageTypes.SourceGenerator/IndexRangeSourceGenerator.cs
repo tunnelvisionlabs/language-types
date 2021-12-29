@@ -277,7 +277,7 @@ namespace System
 
                     if (!referencedTypesData.HasIndex)
                     {
-                        context.AddSource("Index.g.cs", SystemIndexSource);
+                        context.AddSource("Index.g.cs", SystemIndexSource.ReplaceLineEndings("\r\n"));
                     }
                     else
                     {
@@ -286,7 +286,7 @@ namespace System
 
                     if (!referencedTypesData.HasRange)
                     {
-                        context.AddSource("Range.g.cs", SystemRangeSource);
+                        context.AddSource("Range.g.cs", SystemRangeSource.ReplaceLineEndings("\r\n"));
                     }
                     else
                     {
@@ -305,7 +305,7 @@ using System.Runtime.CompilerServices;
 {string.Join("\r\n", forwarders.Select(forwarder => $"[assembly: TypeForwardedTo(typeof({forwarder}))]"))}
 ";
 
-                        context.AddSource("IndexRangeForwarders.g.cs", compilerForwarders);
+                        context.AddSource("IndexRangeForwarders.g.cs", compilerForwarders.ReplaceLineEndings("\r\n"));
                     }
                 });
         }
