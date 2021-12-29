@@ -1,35 +1,19 @@
-# Your Library
+# Language Types Source Generator
 
-***An awesome template for your awesome library***
+A source generator providing types necessary for recent C# language features.
 
 [![NuGet package](https://img.shields.io/nuget/v/TunnelVisionLabs.LanguageTypes.svg)](https://nuget.org/packages/TunnelVisionLabs.LanguageTypes)
 
-
 ## Features
 
-* Follow the best and simplest patterns of build, pack and test with dotnet CLI.
-* Init script that installs prerequisites and auth helpers, supporting both non-elevation and elevation modes.
-* Static analyzers: [FxCop](https://docs.microsoft.com/en-us/visualstudio/code-quality/fxcop-analyzers?view=vs-2019) and [StyleCop](https://github.com/DotNetAnalyzers/StyleCopAnalyzers)
-* Read-only source tree (builds to top-level bin/obj folders)
-* Auto-versioning (via [Nerdbank.GitVersioning](https://github.com/dotnet/nerdbank.gitversioning))
-* Builds with a "pinned" .NET Core SDK to ensure reproducible builds across machines and across time.
-* Automatically pack the library and publish it as an artifact, and even push it to some NuGet feed for consumption.
-* Testing
-  * Testing on .NET Framework, multiple .NET Core versions
-  * Testing on Windows, Linux and OSX
-  * Tests that crash or hang in Azure Pipelines automatically collect dumps and publish as a pipeline artifact for later investigation.
-* Cloud build support
-  * YAML based build for long-term serviceability, and PR review opportunities for any changes.
-  * Azure Pipelines and GitHub Action support
-  * Emphasis on PowerShell scripts over reliance on tasks for a more locally reproducible build.
-  * Code coverage published to Azure Pipelines
-  * Code coverage published to codecov.io so GitHub PRs get code coverage results added as a PR comment
+* `NullableSourceGenerator`: Generates attributes for using Nullable Reference Types (C# 8 for most attributes, C# 9 for `MemberNotNullAttribute` and `MemberNotNullWhenAttribute`)
+* `IndexRangeSourceGenerator`: Generates `System.Index` and `System.Range` for improved indexing, slicing, and substrings (C# 8)
+* `IsExternalInitSourceGenerator`: Generates `IsExternalInit` for using records and init-only properties (C# 9)
 
-## Consumption
+## Installation and Use
 
-Once you've expanded this template for your own use, you should **run the `Expand-Template.ps1` script** to customize the template for your own project.
+This package can be installed by adding a package reference to **TunnelVisionLabs.LanguageTypes**. Current requirements:
 
-Further customize your repo by:
-
-1. Verify the license is suitable for your goal as it appears in the LICENSE and stylecop.json files and the Directory.Build.props file's `PackageLicenseExpression` property.
-1. Reset or replace the badges at the top of this file.
+* C# project
+* PackageReference for NuGet dependencies
+* Compiler version 4.0 or higher (included with Visual Studio 2022 and newer)
