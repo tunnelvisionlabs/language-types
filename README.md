@@ -2,7 +2,7 @@
 
 A source generator providing types necessary for recent C# language features.
 
-[![NuGet package](https://img.shields.io/nuget/v/TunnelVisionLabs.LanguageTypes.svg)](https://nuget.org/packages/TunnelVisionLabs.LanguageTypes)
+[![NuGet package](https://img.shields.io/nuget/v/TunnelVisionLabs.LanguageTypes.SourceGenerator.svg)](https://nuget.org/packages/TunnelVisionLabs.LanguageTypes.SourceGenerator)
 
 ## Features
 
@@ -12,7 +12,7 @@ A source generator providing types necessary for recent C# language features.
 
 ## Installation and Use
 
-This package can be installed by adding a package reference to **TunnelVisionLabs.LanguageTypes**. Current requirements:
+This package can be installed by adding a package reference to **TunnelVisionLabs.LanguageTypes.SourceGenerator**. Current requirements:
 
 * C# project
 * PackageReference for NuGet dependencies
