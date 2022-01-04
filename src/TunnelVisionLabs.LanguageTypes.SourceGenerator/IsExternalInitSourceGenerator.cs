@@ -35,7 +35,7 @@ namespace System.Runtime.CompilerServices
                     var hasIsExternalInit = IsCompilerTypeAvailable(compilation, "System.Runtime.CompilerServices.IsExternalInit");
 
                     return new ReferencedTypesData(
-                        hasIsExternalInit: hasIsExternalInit);
+                        HasIsExternalInit: hasIsExternalInit);
                 });
 
             context.RegisterSourceOutput(
@@ -79,14 +79,7 @@ using System.Runtime.CompilerServices;
             };
         }
 
-        private sealed class ReferencedTypesData
-        {
-            public ReferencedTypesData(TypeDefinitionLocation hasIsExternalInit)
-            {
-                HasIsExternalInit = hasIsExternalInit;
-            }
-
-            public TypeDefinitionLocation HasIsExternalInit { get; }
-        }
+        private sealed record ReferencedTypesData(
+            TypeDefinitionLocation HasIsExternalInit);
     }
 }

@@ -259,17 +259,17 @@ namespace System.Diagnostics.CodeAnalysis
                     var hasMemberNotNullWhenAttribute = IsCodeAnalysisAttributeAvailable(compilation, "System.Diagnostics.CodeAnalysis.MemberNotNullWhenAttribute");
 
                     return new ReferencedTypesData(
-                        hasAllowNullAttribute: hasAllowNullAttribute,
-                        hasDisallowNullAttribute: hasDisallowNullAttribute,
-                        hasMaybeNullAttribute: hasMaybeNullAttribute,
-                        hasNotNullAttribute: hasNotNullAttribute,
-                        hasMaybeNullWhenAttribute: hasMaybeNullWhenAttribute,
-                        hasNotNullWhenAttribute: hasNotNullWhenAttribute,
-                        hasNotNullIfNotNullAttribute: hasNotNullIfNotNullAttribute,
-                        hasDoesNotReturnAttribute: hasDoesNotReturnAttribute,
-                        hasDoesNotReturnIfAttribute: hasDoesNotReturnIfAttribute,
-                        hasMemberNotNullAttribute: hasMemberNotNullAttribute,
-                        hasMemberNotNullWhenAttribute: hasMemberNotNullWhenAttribute);
+                        HasAllowNullAttribute: hasAllowNullAttribute,
+                        HasDisallowNullAttribute: hasDisallowNullAttribute,
+                        HasMaybeNullAttribute: hasMaybeNullAttribute,
+                        HasNotNullAttribute: hasNotNullAttribute,
+                        HasMaybeNullWhenAttribute: hasMaybeNullWhenAttribute,
+                        HasNotNullWhenAttribute: hasNotNullWhenAttribute,
+                        HasNotNullIfNotNullAttribute: hasNotNullIfNotNullAttribute,
+                        HasDoesNotReturnAttribute: hasDoesNotReturnAttribute,
+                        HasDoesNotReturnIfAttribute: hasDoesNotReturnIfAttribute,
+                        HasMemberNotNullAttribute: hasMemberNotNullAttribute,
+                        HasMemberNotNullWhenAttribute: hasMemberNotNullWhenAttribute);
                 });
 
             context.RegisterSourceOutput(
@@ -404,55 +404,17 @@ using System.Runtime.CompilerServices;
             };
         }
 
-        private sealed class ReferencedTypesData
-        {
-            public ReferencedTypesData(
-                TypeDefinitionLocation hasAllowNullAttribute,
-                TypeDefinitionLocation hasDisallowNullAttribute,
-                TypeDefinitionLocation hasMaybeNullAttribute,
-                TypeDefinitionLocation hasNotNullAttribute,
-                TypeDefinitionLocation hasMaybeNullWhenAttribute,
-                TypeDefinitionLocation hasNotNullWhenAttribute,
-                TypeDefinitionLocation hasNotNullIfNotNullAttribute,
-                TypeDefinitionLocation hasDoesNotReturnAttribute,
-                TypeDefinitionLocation hasDoesNotReturnIfAttribute,
-                TypeDefinitionLocation hasMemberNotNullAttribute,
-                TypeDefinitionLocation hasMemberNotNullWhenAttribute)
-            {
-                HasAllowNullAttribute = hasAllowNullAttribute;
-                HasDisallowNullAttribute = hasDisallowNullAttribute;
-                HasMaybeNullAttribute = hasMaybeNullAttribute;
-                HasNotNullAttribute = hasNotNullAttribute;
-                HasMaybeNullWhenAttribute = hasMaybeNullWhenAttribute;
-                HasNotNullWhenAttribute = hasNotNullWhenAttribute;
-                HasNotNullIfNotNullAttribute = hasNotNullIfNotNullAttribute;
-                HasDoesNotReturnAttribute = hasDoesNotReturnAttribute;
-                HasDoesNotReturnIfAttribute = hasDoesNotReturnIfAttribute;
-                HasMemberNotNullAttribute = hasMemberNotNullAttribute;
-                HasMemberNotNullWhenAttribute = hasMemberNotNullWhenAttribute;
-            }
-
-            public TypeDefinitionLocation HasAllowNullAttribute { get; }
-
-            public TypeDefinitionLocation HasDisallowNullAttribute { get; }
-
-            public TypeDefinitionLocation HasMaybeNullAttribute { get; }
-
-            public TypeDefinitionLocation HasNotNullAttribute { get; }
-
-            public TypeDefinitionLocation HasMaybeNullWhenAttribute { get; }
-
-            public TypeDefinitionLocation HasNotNullWhenAttribute { get; }
-
-            public TypeDefinitionLocation HasNotNullIfNotNullAttribute { get; }
-
-            public TypeDefinitionLocation HasDoesNotReturnAttribute { get; }
-
-            public TypeDefinitionLocation HasDoesNotReturnIfAttribute { get; }
-
-            public TypeDefinitionLocation HasMemberNotNullAttribute { get; }
-
-            public TypeDefinitionLocation HasMemberNotNullWhenAttribute { get; }
-        }
+        private sealed record ReferencedTypesData(
+            TypeDefinitionLocation HasAllowNullAttribute,
+            TypeDefinitionLocation HasDisallowNullAttribute,
+            TypeDefinitionLocation HasMaybeNullAttribute,
+            TypeDefinitionLocation HasNotNullAttribute,
+            TypeDefinitionLocation HasMaybeNullWhenAttribute,
+            TypeDefinitionLocation HasNotNullWhenAttribute,
+            TypeDefinitionLocation HasNotNullIfNotNullAttribute,
+            TypeDefinitionLocation HasDoesNotReturnAttribute,
+            TypeDefinitionLocation HasDoesNotReturnIfAttribute,
+            TypeDefinitionLocation HasMemberNotNullAttribute,
+            TypeDefinitionLocation HasMemberNotNullWhenAttribute);
     }
 }

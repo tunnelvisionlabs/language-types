@@ -165,9 +165,9 @@ namespace System
                     var hasValueTuple = IsCompilerTypeAvailable(compilation, "System.ValueTuple`2");
 
                     return new ReferencedTypesData(
-                        hasIndex: hasIndex,
-                        hasRange: hasRange,
-                        hasValueTuple: hasValueTuple);
+                        HasIndex: hasIndex,
+                        HasRange: hasRange,
+                        HasValueTuple: hasValueTuple);
                 });
 
             context.RegisterSourceOutput(
@@ -346,20 +346,9 @@ namespace System
             };
         }
 
-        private sealed class ReferencedTypesData
-        {
-            public ReferencedTypesData(TypeDefinitionLocation hasIndex, TypeDefinitionLocation hasRange, TypeDefinitionLocation hasValueTuple)
-            {
-                HasIndex = hasIndex;
-                HasRange = hasRange;
-                HasValueTuple = hasValueTuple;
-            }
-
-            public TypeDefinitionLocation HasIndex { get; }
-
-            public TypeDefinitionLocation HasRange { get; }
-
-            public TypeDefinitionLocation HasValueTuple { get; }
-        }
+        private sealed record ReferencedTypesData(
+            TypeDefinitionLocation HasIndex,
+            TypeDefinitionLocation HasRange,
+            TypeDefinitionLocation HasValueTuple);
     }
 }
