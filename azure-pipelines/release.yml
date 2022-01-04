@@ -28,7 +28,7 @@ stages:
           - task: GitHubRelease@1
             displayName: GitHub release (create)
             inputs:
-              gitHubConnection: tunnelvisionlabs
+              gitHubConnection: github.com_sharwell
               repositoryName: $(Build.Repository.Name)
               target: $(resources.pipeline.CI.sourceCommit)
               tagSource: userSpecifiedTag
