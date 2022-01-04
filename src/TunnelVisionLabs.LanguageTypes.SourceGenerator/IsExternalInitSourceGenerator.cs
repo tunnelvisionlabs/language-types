@@ -35,7 +35,7 @@ namespace System.Runtime.CompilerServices
                     var hasIsExternalInit = IsCompilerTypeAvailable(compilation, "System.Runtime.CompilerServices.IsExternalInit");
 
                     return new ReferencedTypesData(
-                        hasIsExternalInit: hasIsExternalInit);
+                        HasIsExternalInit: hasIsExternalInit);
                 });
 
             context.RegisterSourceOutput(
@@ -44,11 +44,11 @@ namespace System.Runtime.CompilerServices
                 {
                     var forwarders = new List<string>();
 
-                    if (!referencedTypesData.HasIsExternalInit)
+                    if (referencedTypesData.HasIsExternalInit == TypeDefinitionLocation.None)
                     {
                         context.AddSource("IsExternalInit.g.cs", IsExternalInitSource.ReplaceLineEndings("\r\n"));
                     }
-                    else
+                    else if (referencedTypesData.HasIsExternalInit == TypeDefinitionLocation.Referenced)
                     {
                         forwarders.Add("IsExternalInit");
                     }
@@ -69,17 +69,17 @@ using System.Runtime.CompilerServices;
                 });
         }
 
-        private static bool IsCompilerTypeAvailable(Compilation compilation, string fullyQualifiedMetadataName)
-            => compilation.GetBestTypeByMetadataName(fullyQualifiedMetadataName, requiresAccess: true) is not null;
-
-        private sealed class ReferencedTypesData
+        private static TypeDefinitionLocation IsCompilerTypeAvailable(Compilation compilation, string fullyQualifiedMetadataName)
         {
-            public ReferencedTypesData(bool hasIsExternalInit)
+            return compilation.GetBestTypeByMetadataName(fullyQualifiedMetadataName, requiresAccess: true) switch
             {
-                HasIsExternalInit = hasIsExternalInit;
-            }
-
-            public bool HasIsExternalInit { get; }
+                { OriginalDefinition.ContainingAssembly: var containingAssembly } when SymbolEqualityComparer.Default.Equals(compilation.Assembly, containingAssembly) => TypeDefinitionLocation.Defined,
+                { } => TypeDefinitionLocation.Referenced,
+                _ => TypeDefinitionLocation.None,
+            };
         }
+
+        private sealed record ReferencedTypesData(
+            TypeDefinitionLocation HasIsExternalInit);
     }
 }
