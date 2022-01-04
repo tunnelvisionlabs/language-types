@@ -304,5 +304,26 @@ using System.Runtime.CompilerServices;
                 LanguageVersion = LanguageVersion.CSharp10,
             }.RunAsync();
         }
+
+        [Fact]
+        public async Task TestTypesProvided()
+        {
+            await new VerifyCS.Test
+            {
+                TestState =
+                {
+                    ReferenceAssemblies = ReferenceAssemblies.NetStandard.NetStandard20,
+                    Sources =
+                    {
+                        @"namespace System { struct Index { } }",
+                        @"namespace System { struct Range { } }",
+                    },
+                    GeneratedSources =
+                    {
+                    },
+                },
+                LanguageVersion = LanguageVersion.CSharp10,
+            }.RunAsync();
+        }
     }
 }

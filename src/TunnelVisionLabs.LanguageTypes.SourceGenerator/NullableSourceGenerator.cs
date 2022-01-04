@@ -278,101 +278,101 @@ namespace System.Diagnostics.CodeAnalysis
                 {
                     var forwarders = new List<string>();
 
-                    if (!referencedTypesData.HasAllowNullAttribute)
+                    if (referencedTypesData.HasAllowNullAttribute == TypeDefinitionLocation.None)
                     {
                         context.AddSource("AllowNullAttribute.g.cs", AllowNullAttributeSource.ReplaceLineEndings("\r\n"));
                     }
-                    else
+                    else if (referencedTypesData.HasAllowNullAttribute == TypeDefinitionLocation.Referenced)
                     {
                         forwarders.Add("AllowNullAttribute");
                     }
 
-                    if (!referencedTypesData.HasDisallowNullAttribute)
+                    if (referencedTypesData.HasDisallowNullAttribute == TypeDefinitionLocation.None)
                     {
                         context.AddSource("DisallowNullAttribute.g.cs", DisallowNullAttributeSource.ReplaceLineEndings("\r\n"));
                     }
-                    else
+                    else if (referencedTypesData.HasDisallowNullAttribute == TypeDefinitionLocation.Referenced)
                     {
                         forwarders.Add("DisallowNullAttribute");
                     }
 
-                    if (!referencedTypesData.HasMaybeNullAttribute)
+                    if (referencedTypesData.HasMaybeNullAttribute == TypeDefinitionLocation.None)
                     {
                         context.AddSource("MaybeNullAttribute.g.cs", MaybeNullAttributeSource.ReplaceLineEndings("\r\n"));
                     }
-                    else
+                    else if (referencedTypesData.HasMaybeNullAttribute == TypeDefinitionLocation.Referenced)
                     {
                         forwarders.Add("MaybeNullAttribute");
                     }
 
-                    if (!referencedTypesData.HasNotNullAttribute)
+                    if (referencedTypesData.HasNotNullAttribute == TypeDefinitionLocation.None)
                     {
                         context.AddSource("NotNullAttribute.g.cs", NotNullAttributeSource.ReplaceLineEndings("\r\n"));
                     }
-                    else
+                    else if (referencedTypesData.HasNotNullAttribute == TypeDefinitionLocation.Referenced)
                     {
                         forwarders.Add("NotNullAttribute");
                     }
 
-                    if (!referencedTypesData.HasMaybeNullWhenAttribute)
+                    if (referencedTypesData.HasMaybeNullWhenAttribute == TypeDefinitionLocation.None)
                     {
                         context.AddSource("MaybeNullWhenAttribute.g.cs", MaybeNullWhenAttributeSource.ReplaceLineEndings("\r\n"));
                     }
-                    else
+                    else if (referencedTypesData.HasMaybeNullWhenAttribute == TypeDefinitionLocation.Referenced)
                     {
                         forwarders.Add("MaybeNullWhenAttribute");
                     }
 
-                    if (!referencedTypesData.HasNotNullWhenAttribute)
+                    if (referencedTypesData.HasNotNullWhenAttribute == TypeDefinitionLocation.None)
                     {
                         context.AddSource("NotNullWhenAttribute.g.cs", NotNullWhenAttributeSource.ReplaceLineEndings("\r\n"));
                     }
-                    else
+                    else if (referencedTypesData.HasNotNullWhenAttribute == TypeDefinitionLocation.Referenced)
                     {
                         forwarders.Add("NotNullWhenAttribute");
                     }
 
-                    if (!referencedTypesData.HasNotNullIfNotNullAttribute)
+                    if (referencedTypesData.HasNotNullIfNotNullAttribute == TypeDefinitionLocation.None)
                     {
                         context.AddSource("NotNullIfNotNullAttribute.g.cs", NotNullIfNotNullAttributeSource.ReplaceLineEndings("\r\n"));
                     }
-                    else
+                    else if (referencedTypesData.HasNotNullIfNotNullAttribute == TypeDefinitionLocation.Referenced)
                     {
                         forwarders.Add("NotNullIfNotNullAttribute");
                     }
 
-                    if (!referencedTypesData.HasDoesNotReturnAttribute)
+                    if (referencedTypesData.HasDoesNotReturnAttribute == TypeDefinitionLocation.None)
                     {
                         context.AddSource("DoesNotReturnAttribute.g.cs", DoesNotReturnAttributeSource.ReplaceLineEndings("\r\n"));
                     }
-                    else
+                    else if (referencedTypesData.HasDoesNotReturnAttribute == TypeDefinitionLocation.Referenced)
                     {
                         forwarders.Add("DoesNotReturnAttribute");
                     }
 
-                    if (!referencedTypesData.HasDoesNotReturnIfAttribute)
+                    if (referencedTypesData.HasDoesNotReturnIfAttribute == TypeDefinitionLocation.None)
                     {
                         context.AddSource("DoesNotReturnIfAttribute.g.cs", DoesNotReturnIfAttributeSource.ReplaceLineEndings("\r\n"));
                     }
-                    else
+                    else if (referencedTypesData.HasDoesNotReturnIfAttribute == TypeDefinitionLocation.Referenced)
                     {
                         forwarders.Add("DoesNotReturnIfAttribute");
                     }
 
-                    if (!referencedTypesData.HasMemberNotNullAttribute)
+                    if (referencedTypesData.HasMemberNotNullAttribute == TypeDefinitionLocation.None)
                     {
                         context.AddSource("MemberNotNullAttribute.g.cs", MemberNotNullAttributeSource.ReplaceLineEndings("\r\n"));
                     }
-                    else
+                    else if (referencedTypesData.HasMemberNotNullAttribute == TypeDefinitionLocation.Referenced)
                     {
                         forwarders.Add("MemberNotNullAttribute");
                     }
 
-                    if (!referencedTypesData.HasMemberNotNullWhenAttribute)
+                    if (referencedTypesData.HasMemberNotNullWhenAttribute == TypeDefinitionLocation.None)
                     {
                         context.AddSource("MemberNotNullWhenAttribute.g.cs", MemberNotNullWhenAttributeSource.ReplaceLineEndings("\r\n"));
                     }
-                    else
+                    else if (referencedTypesData.HasMemberNotNullWhenAttribute == TypeDefinitionLocation.Referenced)
                     {
                         forwarders.Add("MemberNotNullWhenAttribute");
                     }
@@ -394,23 +394,30 @@ using System.Runtime.CompilerServices;
                 });
         }
 
-        private static bool IsCodeAnalysisAttributeAvailable(Compilation compilation, string fullyQualifiedMetadataName)
-            => compilation.GetBestTypeByMetadataName(fullyQualifiedMetadataName, requiresAccess: true) is not null;
+        private static TypeDefinitionLocation IsCodeAnalysisAttributeAvailable(Compilation compilation, string fullyQualifiedMetadataName)
+        {
+            return compilation.GetBestTypeByMetadataName(fullyQualifiedMetadataName, requiresAccess: true) switch
+            {
+                { OriginalDefinition.ContainingAssembly: var containingAssembly } when SymbolEqualityComparer.Default.Equals(compilation.Assembly, containingAssembly) => TypeDefinitionLocation.Defined,
+                { } => TypeDefinitionLocation.Referenced,
+                _ => TypeDefinitionLocation.None,
+            };
+        }
 
         private sealed class ReferencedTypesData
         {
             public ReferencedTypesData(
-                bool hasAllowNullAttribute,
-                bool hasDisallowNullAttribute,
-                bool hasMaybeNullAttribute,
-                bool hasNotNullAttribute,
-                bool hasMaybeNullWhenAttribute,
-                bool hasNotNullWhenAttribute,
-                bool hasNotNullIfNotNullAttribute,
-                bool hasDoesNotReturnAttribute,
-                bool hasDoesNotReturnIfAttribute,
-                bool hasMemberNotNullAttribute,
-                bool hasMemberNotNullWhenAttribute)
+                TypeDefinitionLocation hasAllowNullAttribute,
+                TypeDefinitionLocation hasDisallowNullAttribute,
+                TypeDefinitionLocation hasMaybeNullAttribute,
+                TypeDefinitionLocation hasNotNullAttribute,
+                TypeDefinitionLocation hasMaybeNullWhenAttribute,
+                TypeDefinitionLocation hasNotNullWhenAttribute,
+                TypeDefinitionLocation hasNotNullIfNotNullAttribute,
+                TypeDefinitionLocation hasDoesNotReturnAttribute,
+                TypeDefinitionLocation hasDoesNotReturnIfAttribute,
+                TypeDefinitionLocation hasMemberNotNullAttribute,
+                TypeDefinitionLocation hasMemberNotNullWhenAttribute)
             {
                 HasAllowNullAttribute = hasAllowNullAttribute;
                 HasDisallowNullAttribute = hasDisallowNullAttribute;
@@ -425,27 +432,27 @@ using System.Runtime.CompilerServices;
                 HasMemberNotNullWhenAttribute = hasMemberNotNullWhenAttribute;
             }
 
-            public bool HasAllowNullAttribute { get; }
+            public TypeDefinitionLocation HasAllowNullAttribute { get; }
 
-            public bool HasDisallowNullAttribute { get; }
+            public TypeDefinitionLocation HasDisallowNullAttribute { get; }
 
-            public bool HasMaybeNullAttribute { get; }
+            public TypeDefinitionLocation HasMaybeNullAttribute { get; }
 
-            public bool HasNotNullAttribute { get; }
+            public TypeDefinitionLocation HasNotNullAttribute { get; }
 
-            public bool HasMaybeNullWhenAttribute { get; }
+            public TypeDefinitionLocation HasMaybeNullWhenAttribute { get; }
 
-            public bool HasNotNullWhenAttribute { get; }
+            public TypeDefinitionLocation HasNotNullWhenAttribute { get; }
 
-            public bool HasNotNullIfNotNullAttribute { get; }
+            public TypeDefinitionLocation HasNotNullIfNotNullAttribute { get; }
 
-            public bool HasDoesNotReturnAttribute { get; }
+            public TypeDefinitionLocation HasDoesNotReturnAttribute { get; }
 
-            public bool HasDoesNotReturnIfAttribute { get; }
+            public TypeDefinitionLocation HasDoesNotReturnIfAttribute { get; }
 
-            public bool HasMemberNotNullAttribute { get; }
+            public TypeDefinitionLocation HasMemberNotNullAttribute { get; }
 
-            public bool HasMemberNotNullWhenAttribute { get; }
+            public TypeDefinitionLocation HasMemberNotNullWhenAttribute { get; }
         }
     }
 }

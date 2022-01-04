@@ -44,11 +44,11 @@ namespace System.Runtime.CompilerServices
                 {
                     var forwarders = new List<string>();
 
-                    if (!referencedTypesData.HasIsExternalInit)
+                    if (referencedTypesData.HasIsExternalInit == TypeDefinitionLocation.None)
                     {
                         context.AddSource("IsExternalInit.g.cs", IsExternalInitSource.ReplaceLineEndings("\r\n"));
                     }
-                    else
+                    else if (referencedTypesData.HasIsExternalInit == TypeDefinitionLocation.Referenced)
                     {
                         forwarders.Add("IsExternalInit");
                     }
@@ -69,17 +69,24 @@ using System.Runtime.CompilerServices;
                 });
         }
 
-        private static bool IsCompilerTypeAvailable(Compilation compilation, string fullyQualifiedMetadataName)
-            => compilation.GetBestTypeByMetadataName(fullyQualifiedMetadataName, requiresAccess: true) is not null;
+        private static TypeDefinitionLocation IsCompilerTypeAvailable(Compilation compilation, string fullyQualifiedMetadataName)
+        {
+            return compilation.GetBestTypeByMetadataName(fullyQualifiedMetadataName, requiresAccess: true) switch
+            {
+                { OriginalDefinition.ContainingAssembly: var containingAssembly } when SymbolEqualityComparer.Default.Equals(compilation.Assembly, containingAssembly) => TypeDefinitionLocation.Defined,
+                { } => TypeDefinitionLocation.Referenced,
+                _ => TypeDefinitionLocation.None,
+            };
+        }
 
         private sealed class ReferencedTypesData
         {
-            public ReferencedTypesData(bool hasIsExternalInit)
+            public ReferencedTypesData(TypeDefinitionLocation hasIsExternalInit)
             {
                 HasIsExternalInit = hasIsExternalInit;
             }
 
-            public bool HasIsExternalInit { get; }
+            public TypeDefinitionLocation HasIsExternalInit { get; }
         }
     }
 }

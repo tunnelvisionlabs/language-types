@@ -275,20 +275,20 @@ namespace System
                 {
                     var forwarders = new List<string>();
 
-                    if (!referencedTypesData.HasIndex)
+                    if (referencedTypesData.HasIndex == TypeDefinitionLocation.None)
                     {
                         context.AddSource("Index.g.cs", SystemIndexSource.ReplaceLineEndings("\r\n"));
                     }
-                    else
+                    else if (referencedTypesData.HasIndex == TypeDefinitionLocation.Referenced)
                     {
                         forwarders.Add("Index");
                     }
 
-                    if (!referencedTypesData.HasRange)
+                    if (referencedTypesData.HasRange == TypeDefinitionLocation.None)
                     {
                         context.AddSource("Range.g.cs", SystemRangeSource.ReplaceLineEndings("\r\n"));
                     }
-                    else
+                    else if (referencedTypesData.HasRange == TypeDefinitionLocation.Referenced)
                     {
                         forwarders.Add("Range");
                     }
@@ -310,20 +310,27 @@ using System.Runtime.CompilerServices;
                 });
         }
 
-        private static bool IsCompilerTypeAvailable(Compilation compilation, string fullyQualifiedMetadataName)
-            => compilation.GetBestTypeByMetadataName(fullyQualifiedMetadataName, requiresAccess: true) is not null;
+        private static TypeDefinitionLocation IsCompilerTypeAvailable(Compilation compilation, string fullyQualifiedMetadataName)
+        {
+            return compilation.GetBestTypeByMetadataName(fullyQualifiedMetadataName, requiresAccess: true) switch
+            {
+                { OriginalDefinition.ContainingAssembly: var containingAssembly } when SymbolEqualityComparer.Default.Equals(compilation.Assembly, containingAssembly) => TypeDefinitionLocation.Defined,
+                { } => TypeDefinitionLocation.Referenced,
+                _ => TypeDefinitionLocation.None,
+            };
+        }
 
         private sealed class ReferencedTypesData
         {
-            public ReferencedTypesData(bool hasIndex, bool hasRange)
+            public ReferencedTypesData(TypeDefinitionLocation hasIndex, TypeDefinitionLocation hasRange)
             {
                 HasIndex = hasIndex;
                 HasRange = hasRange;
             }
 
-            public bool HasIndex { get; }
+            public TypeDefinitionLocation HasIndex { get; }
 
-            public bool HasRange { get; }
+            public TypeDefinitionLocation HasRange { get; }
         }
     }
 }
